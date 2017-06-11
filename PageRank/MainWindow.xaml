@@ -15,11 +15,11 @@ Title="MainWindow" Height="700" Width="1004">
                 <Button Content="Losuj Diraf G(n, p)" HorizontalAlignment="Center" VerticalAlignment="Top" Width="279" Height="40" Margin="0,0,-0.333,0" Click="Button_Click" />
                 <StackPanel Orientation="Horizontal" Margin="18,10,9.667,0">
                     <TextBlock Text="Z prawdopodobieństwem&#xA;wystąpienia krawędzi (0 - 100%):" Width="184"/>
-                    <TextBox x:Name="Probability_Of_Edge_Occurence" Width="66" Height="20" PreviewTextInput="NumbersOnly_PreviewTextInput" Text="20"/>
+                    <TextBox x:Name="Probability_Of_Edge_Occurence" Width="66" Height="20" PreviewTextInput="NumbersOnly_PreviewTextInput" Text="60"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="18,0,9.667,20" Height="25">
                     <TextBlock Text="Liczba wierzchołków:" Width="184" VerticalAlignment="Center"/>
-                    <TextBox x:Name="Number_Of_Vertex" Width="66" Height="20" Text="5"/>
+                    <TextBox x:Name="Number_Of_Vertex" Width="66" Height="20" Text="6"/>
                 </StackPanel>
                 <Button Name="PageRank1" Content="PageRank" Height="40" Width="279" HorizontalContentAlignment="Center" Margin="0, 20, 0, 0" Click="PageRank1_Click" />
                 <TextBlock Name="PageRank1TextBlock" Margin="10, 10, 10, 0"/>

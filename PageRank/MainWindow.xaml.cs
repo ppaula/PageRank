@@ -317,10 +317,14 @@ namespace PageRank
             double d = 0.85;
             double dTeleport = 0.15;
             double[] ptt = new double[v];
-            double[] pt = new double[v];
+            double[,] pt = new double[v,10];
             for (int i = 0; i < v; i++)
             {
-                pt[i] = 1.0 / (double)v;
+                for(int j=0; j<10; j++)
+                {
+
+                    pt[i, j] = 1.0 / (double)v;
+                }
             }
             double [,] P = new double[v, v];
             for (int i = 0; i < v; i++)
@@ -373,15 +377,31 @@ namespace PageRank
                     double c = 0.0;
                     for (int j = 0; j < v; j++)
                     {
-                        c = c + pt[j] * P[j, i];
+                        c = c + pt[j, id%10] * P[j, i];
                     }
                     ptt[i] = c;
                 }
-                for(int x=0; x<v; x++)
+                int CountChanges = 0;
+                for (int x = 0; x < v; x++)
                 {
-                    pt[x] = ptt[x];
+                    if (Math.Abs(pt[x, id%10] - ptt[x]) < 0.001 )
+                    {
+                        CountChanges++;
+                    } else
+                    {
+                        pt[x, id%10] = ptt[x];
+                    }
+                }
+                if(CountChanges == v)
+                {
+                   // break;
                 }
             
+            }
+
+            for(int i =0; i<v; i++)
+            {
+                ptt[i] = (pt[i, 0] + pt[i, 1] + pt[i, 2] + pt[i, 3] + pt[i, 4] + pt[i, 5] + pt[i, 6] + pt[i, 7] + pt[i, 8] + pt[i, 9]) / 10.0;
             }
             string output = "";
             for (int i = 0; i < v; i++)
