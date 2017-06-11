@@ -330,35 +330,56 @@ namespace PageRank
                     P[i, j] = 0.0;
                 }
             }
-
-            for (int id=0; id<1000000; id++)
+            double[,] newArray = new double[v, v];
+            for(int i=0; i<v; i++)
             {
-                //tutaj obliczamy P
-                for (int i = 0; i < v; i++)
-                {
-                    int numOfNeig = 0;
-                    for (int ig = 0; ig < v; ig++)
-                    {
-                        if (adjacencyMatrix.AdjacencyArray[ig, i] == 1)
-                        {
-                            numOfNeig++;
-                        }
-                    }
-                    for (int j = 0; j < v; j++)
-                    {
 
-                        P[i, j] = d * ((double)adjacencyMatrix.AdjacencyArray[i, j] / (double)numOfNeig) + dTeleport / (int)v;
+                int numOfNeig = 0;
+                for (int ig = 0; ig < v; ig++)
+                {
+                    if (adjacencyMatrix.AdjacencyArray[i, ig] == 1)
+                    {
+                        numOfNeig++;
                     }
                 }
+
+                for (int j = 0; j < v; j++)
+                {
+                    if (adjacencyMatrix.AdjacencyArray[i, j] == 1)
+                    {
+                        newArray[i, j] = (double)adjacencyMatrix.AdjacencyArray[i, j] / (double)numOfNeig;
+                    } else
+                    {
+                        newArray[i, j] = 0.0;
+                    }
+                }
+            }
+            
+
+            //tutaj obliczamy P
+            for (int i = 0; i < v; i++)
+            {
+                for (int j = 0; j < v; j++)
+                {
+
+                    P[i, j] = d * (newArray[i, j]) + dTeleport / (double)v;
+                }
+            }
+            for (int id = 0; id < 10000; id++)
+            {
                 //tutaj mnozymy P * pt
                 for (int i = 0; i < v; i++)
                 {
                     double c = 0.0;
                     for (int j = 0; j < v; j++)
                     {
-                        c = c + pt[j] * (double)adjacencyMatrix.AdjacencyArray[j, i];
+                        c = c + pt[j] * P[j, i];
                     }
                     ptt[i] = c;
+                }
+                for(int x=0; x<v; x++)
+                {
+                    pt[x] = ptt[x];
                 }
             
             }
@@ -366,6 +387,7 @@ namespace PageRank
             for (int i = 0; i < v; i++)
             {
                 output = output + (i + 1).ToString() + ": " + ptt[i].ToString("0.000") + "\n";
+                
             }
             PageRank2TextBlock.Text = output;
         }
