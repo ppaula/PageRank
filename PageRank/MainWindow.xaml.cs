@@ -316,6 +316,8 @@ namespace PageRank
             int v = adjacencyMatrix.AdjacencyArray.GetLength(0);
             double d = 0.85;
             double dTeleport = 0.15;
+
+            //tablica wynikow
             double[] ptt = new double[v];
             double[,] pt = new double[v,10];
             for (int i = 0; i < v; i++)
@@ -326,6 +328,8 @@ namespace PageRank
                     pt[i, j] = 1.0 / (double)v;
                 }
             }
+
+            //macierz przez ktora bedziemy mnozyc
             double [,] P = new double[v, v];
             for (int i = 0; i < v; i++)
             {
@@ -334,11 +338,15 @@ namespace PageRank
                     P[i, j] = 0.0;
                 }
             }
+
+            //tutaj robimyu nową macierz sąsiedztwa, 
+            //która zamiast wszędzie jedynek ma ułamki zależne od 
+            //liczby sąsiadów danego wierzchołka(rzędu)
             double[,] newArray = new double[v, v];
             for(int i=0; i<v; i++)
             {
-
                 int numOfNeig = 0;
+                //ile sąsiadów ma dany wierzchołek
                 for (int ig = 0; ig < v; ig++)
                 {
                     if (adjacencyMatrix.AdjacencyArray[i, ig] == 1)
@@ -346,7 +354,6 @@ namespace PageRank
                         numOfNeig++;
                     }
                 }
-
                 for (int j = 0; j < v; j++)
                 {
                     if (adjacencyMatrix.AdjacencyArray[i, j] == 1)
@@ -358,7 +365,6 @@ namespace PageRank
                     }
                 }
             }
-            
 
             //tutaj obliczamy P
             for (int i = 0; i < v; i++)
@@ -369,9 +375,11 @@ namespace PageRank
                     P[i, j] = d * (newArray[i, j]) + dTeleport / (double)v;
                 }
             }
+
+            //tutaj mnozymy P * pt dużooo razy
             for (int id = 0; id < 10000; id++)
             {
-                //tutaj mnozymy P * pt
+               
                 for (int i = 0; i < v; i++)
                 {
                     double c = 0.0;
@@ -381,28 +389,20 @@ namespace PageRank
                     }
                     ptt[i] = c;
                 }
-                int CountChanges = 0;
                 for (int x = 0; x < v; x++)
                 {
-                    if (Math.Abs(pt[x, id%10] - ptt[x]) < 0.001 )
-                    {
-                        CountChanges++;
-                    } else
-                    {
                         pt[x, id%10] = ptt[x];
-                    }
-                }
-                if(CountChanges == v)
-                {
-                   // break;
                 }
             
             }
 
+            //robimy srednia z wynikow
             for(int i =0; i<v; i++)
             {
                 ptt[i] = (pt[i, 0] + pt[i, 1] + pt[i, 2] + pt[i, 3] + pt[i, 4] + pt[i, 5] + pt[i, 6] + pt[i, 7] + pt[i, 8] + pt[i, 9]) / 10.0;
             }
+
+            //wypisanie tekstu
             string output = "";
             for (int i = 0; i < v; i++)
             {
